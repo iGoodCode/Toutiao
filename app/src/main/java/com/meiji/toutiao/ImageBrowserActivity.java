@@ -19,6 +19,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.SparseArray;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.meiji.toutiao.module.base.BaseActivity;
 import com.meiji.toutiao.util.DownloadUtil;
 import com.meiji.toutiao.util.ImageLoader;
@@ -52,9 +55,7 @@ import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import uk.co.senab.photoview.DefaultOnDoubleTapListener;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 /**
  * Created by Meiji on 2018/3/9.
@@ -332,7 +333,43 @@ public class ImageBrowserActivity extends BaseActivity {
 
                 PhotoView imageView = view.findViewById(R.id.photoView);
                 PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
-                attacher.setOnDoubleTapListener(new PhotoViewOnDoubleTapListener(attacher));
+//                attacher.setOnDoubleTapListener(new PhotoViewOnDoubleTapListener(attacher));
+                attacher.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
+                    private PhotoViewAttacher photoViewAttacher;
+                    private boolean canZoom = true;
+
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onDoubleTap(MotionEvent ev) {
+                        if (photoViewAttacher == null)
+                            return false;
+                        try {
+                            float x = ev.getX();
+                            float y = ev.getY();
+
+                            if (canZoom) {
+                                photoViewAttacher.setScale(photoViewAttacher.getMediumScale(), x, y, true);
+                            } else {
+                                photoViewAttacher.setScale(photoViewAttacher.getMinimumScale(), x, y, true);
+                            }
+                            canZoom = !canZoom;
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            // Can sometimes happen when getX() and getY() is called
+                        }
+
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onDoubleTapEvent(MotionEvent e) {
+                        return false;
+                    }
+                });
+
                 attacher.setOnLongClickListener(v -> {
                     ImageBrowserActivity.this.onLongClick();
                     return false;
@@ -355,36 +392,36 @@ public class ImageBrowserActivity extends BaseActivity {
         }
     }
 
-    private class PhotoViewOnDoubleTapListener extends DefaultOnDoubleTapListener {
-
-        private PhotoViewAttacher photoViewAttacher;
-        private boolean canZoom = true;
-
-        PhotoViewOnDoubleTapListener(PhotoViewAttacher photoViewAttacher) {
-            super(photoViewAttacher);
-            this.photoViewAttacher = photoViewAttacher;
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent ev) {
-            if (photoViewAttacher == null)
-                return false;
-            try {
-                float x = ev.getX();
-                float y = ev.getY();
-
-                if (canZoom) {
-                    photoViewAttacher.setScale(photoViewAttacher.getMediumScale(), x, y, true);
-                } else {
-                    photoViewAttacher.setScale(photoViewAttacher.getMinimumScale(), x, y, true);
-                }
-                canZoom = !canZoom;
-            } catch (ArrayIndexOutOfBoundsException e) {
-                // Can sometimes happen when getX() and getY() is called
-            }
-
-            return true;
-        }
-    }
+//    private class PhotoViewOnDoubleTapListener implements GestureDetector.OnDoubleTapListener {
+//
+//        private PhotoViewAttacher photoViewAttacher;
+//        private boolean canZoom = true;
+//
+//        PhotoViewOnDoubleTapListener(PhotoViewAttacher photoViewAttacher) {
+//            super(photoViewAttacher);
+//            this.photoViewAttacher = photoViewAttacher;
+//        }
+//
+//        @Override
+//        public boolean onDoubleTap(MotionEvent ev) {
+//            if (photoViewAttacher == null)
+//                return false;
+//            try {
+//                float x = ev.getX();
+//                float y = ev.getY();
+//
+//                if (canZoom) {
+//                    photoViewAttacher.setScale(photoViewAttacher.getMediumScale(), x, y, true);
+//                } else {
+//                    photoViewAttacher.setScale(photoViewAttacher.getMinimumScale(), x, y, true);
+//                }
+//                canZoom = !canZoom;
+//            } catch (ArrayIndexOutOfBoundsException e) {
+//                // Can sometimes happen when getX() and getY() is called
+//            }
+//
+//            return true;
+//        }
+//    }
 
 }

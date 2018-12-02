@@ -19,6 +19,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.meiji.toutiao.R;
 import com.meiji.toutiao.bean.photo.PhotoGalleryBean;
 import com.meiji.toutiao.module.base.BaseActivity;
@@ -27,7 +28,6 @@ import com.meiji.toutiao.util.SettingUtil;
 
 import java.util.List;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by Meiji on 2017/2/17.
