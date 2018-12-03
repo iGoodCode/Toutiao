@@ -39,6 +39,7 @@ public class WendaArticleView extends BaseListFragment<IWendaArticle.Presenter> 
     protected void initView(View view) {
         super.initView(view);
         adapter = new MultiTypeAdapter(oldItems);
+//        seachal annotation: 绑定布局
         Register.registerWendaArticleItem(adapter);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new OnLoadMoreListener() {

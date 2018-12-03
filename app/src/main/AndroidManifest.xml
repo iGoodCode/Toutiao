@@ -85,11 +85,11 @@
             android:label="@string/title_comment"
             android:theme="@style/AppTheme.NoActionBar.Slidable"/>
 
-        <activity
-            android:name=".module.joke.comment.JokeCommentActivity"
-            android:configChanges="orientation|screenSize|uiMode"
-            android:label="@string/title_joke_comment"
-            android:theme="@style/AppTheme.NoActionBar.Slidable"/>
+        <!--<activity-->
+            <!--android:name=".module.joke.comment.JokeCommentActivity"-->
+            <!--android:configChanges="orientation|screenSize|uiMode"-->
+            <!--android:label="@string/title_joke_comment"-->
+            <!--android:theme="@style/AppTheme.NoActionBar.Slidable"/>-->
 
         <activity
             android:name="com.meiji.toutiao.setting.SettingActivity"

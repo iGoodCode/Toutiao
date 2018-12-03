@@ -108,7 +108,7 @@ public class NewsTabLayout extends Fragment {
 
         for (NewsChannelBean bean : channelList) {
 
-            Fragment fragment = null;
+            Fragment  fragment= null;
             String channelId = bean.getChannelId();
 
             switch (channelId) {

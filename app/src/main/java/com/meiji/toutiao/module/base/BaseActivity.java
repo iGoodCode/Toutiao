@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.color.CircleView;
@@ -65,6 +66,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.iconType = SettingUtil.getInstance().getCustomIconValue();
         this.mContext = this;
         initSlidable();
+        //输出当前Fragment的名字
+        Log.d("BaseActivity", getClass().getSimpleName());
     }
 
     @Override
